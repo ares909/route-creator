@@ -5,3 +5,6 @@ export const getGeoData = async (address) => {
     const response = await axios.get(`${yandexUrl}/?format=json&apikey=${yandexApiKey}&geocode=${address}`);
     return response.data;
 };
+
+// заглушка для именованного импорта
+export const second = () => {};

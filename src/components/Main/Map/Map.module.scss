@@ -1,0 +1,75 @@
+
+.map {
+  width: 736px;
+  height: 352px;
+
+  @media screen and (min-width: 1024px) and (max-width: 1439px) {
+    width: calc(100vw - 64px - 64px - 287px - 10%);
+    max-height: 352px;
+    height: calc(100vh - 330px);
+    max-width: 736px;
+    margin: 0 auto 0;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: calc(100vw - 86px - 64px);
+    max-height: 352px;
+    height: calc(100vh - 330px);
+    max-width: 736px;
+    margin: 0;
+  }
+  @media screen and (min-width: 426px) and (max-width: 767px) {
+    width: 0;
+    min-width: 100%;
+    height: 0;
+    min-height: calc(100vh - 225px);
+  }
+
+  @media screen and (min-width: 426px) and (max-width: 550px) {
+    padding: 10px;
+    min-width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: 0;
+    min-height: calc(100vh - 217px - 20px);
+  }
+
+  @media screen and (min-width: 0) and (max-width: 425px) {
+    padding: 10px;
+    min-width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    // max-width: 736px;
+    margin: 0;
+    height: 0;
+    min-height: calc(100vh - 215px - 20px);
+    // max-height: 100vh;
+  }
+}
+
+.mapMobile {
+  @extend .map;
+
+  @media screen and (min-width: 0) and (max-width: 425px) {
+    min-width: 100vw;
+    max-width: 100vw;
+    // max-width: 736px;
+    margin: 0;
+    height: 0;
+    min-height: calc(100vh - 220px - 105px);
+    max-height: 352px;
+    // max-height: 100vh;
+  }
+
+  @media screen and (min-width: 426px) and (max-width: 767px) {
+    // min-width: 100vw;
+    max-width: 100vw;
+    // max-width: 736px;
+    margin: 0;
+    height: 0;
+    min-height: calc(100vh - 220px - 125px);
+    // max-height: 100vh;
+  }
+
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: calc(100vw - 86px - 64px - 287px);
+  }
+}
