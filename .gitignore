@@ -29,3 +29,6 @@ yarn-error.log*
 # cfg
 .prettierrc.js
 .eslintrc.json
+
+# idea
+.idea

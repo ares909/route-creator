@@ -1,32 +1,20 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "./Card/Card.jsx";
 import styles from "./List.module.scss";
 
 import { sortPoints } from "../../../utils/dataFormatters";
 import { changeStateAction } from "../../../store/slices/appSlice";
+import { geoData } from "../../../store/selectors/selectors";
 
 const List = () => {
     const dispatch = useDispatch();
-    const geoData = useSelector((state) => state.app.geoData);
-    const pointsArray = useSelector((state) => state.app.geoData.points);
-
+    const { points: pointsArray } = useSelector(geoData);
     const [currentCard, setCurrentCard] = useState(null);
-    // useEffect(() => {
-    //     const array = geoData.points && geoData.points.map((item, index) => ({ ...item, order: index }));
-    //     dispatch(
-    //         changeStateAction({
-    //             pointsArray: array,
-    //         }),
-    //     );
-    // }, [geoData.points]);
 
     const dragStartHandler = (e, item) => {
-        console.log("drag", item);
         setCurrentCard(item);
     };
-
-    const dragLeaveHandler = (e) => {};
 
     const dragEndHandler = (e) => {
         e.target.style.background = "white";
@@ -39,7 +27,6 @@ const List = () => {
 
     const dropHandler = (e, item) => {
         e.preventDefault();
-        console.log("drop", item);
         const array = pointsArray
             .map((card) => {
                 if (card.id === item.id) {
@@ -70,7 +57,6 @@ const List = () => {
                         key={item.id}
                         card={item}
                         dragStartHandler={dragStartHandler}
-                        dragLeaveHandler={dragLeaveHandler}
                         dragEndHandler={dragEndHandler}
                         dragOverHandler={dragOverHandler}
                         dropHandler={dropHandler}

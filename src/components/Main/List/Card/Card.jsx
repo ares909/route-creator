@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStateAction } from "../../../../store/slices/appSlice";
 import CrossButton from "./CrossButton/CrossButton.jsx";
+import { geoData } from "../../../../store/selectors/selectors";
 import styles from "./Card.module.scss";
 
-const Card = ({ card, dragEndHandler, dragLeaveHandler, dragOverHandler, dropHandler, dragStartHandler }) => {
-    const geoData = useSelector((state) => state.app.geoData);
-    const pointsArray = useSelector((state) => state.app.pointsArray);
+const Card = ({ card, dragEndHandler, dragOverHandler, dropHandler, dragStartHandler }) => {
+    const { points } = useSelector(geoData);
     const dispatch = useDispatch();
 
     const deletePoint = (point) => {
-        const array = geoData.points.filter((item) => item.id !== point.id);
+        const array = points?.filter((item) => item.id !== point.id);
         dispatch(
             changeStateAction({
                 geoData: {
