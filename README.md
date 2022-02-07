@@ -23,7 +23,7 @@ Please ensure that you have node.js and npm installed
 Clone repo:
 
 ```
-git clone https://github.com/ares909/aviasales-test-ts
+git clone https://github.com/ares909/route-creator
 ```
 
 Install deps:
