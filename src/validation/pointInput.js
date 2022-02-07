@@ -4,6 +4,7 @@ const pointValidationSchema = yup.object().shape({
     point: yup
         .string()
         .required("Поле не должно быть пустым")
+        .matches(/[a-zA-ZА-Яа-яЁё]/, "Введите адрес в формате 'Город,улица'")
         .when("$points", (points, schema) => {
             return schema.test(
                 "pointName",

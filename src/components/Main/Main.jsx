@@ -10,8 +10,10 @@ import styles from "./Main.module.scss";
 const Main = () => {
     return (
         <main className={styles.main}>
-            <Form />
-            <List />
+            <div className={styles.formContainer}>
+                <Form />
+                <List />
+            </div>
             <YMaps
                 query={{
                     apikey: yandexApiKey,

@@ -10,33 +10,34 @@ import { sortPoints } from "../../../utils/dataFormatters";
 import { defaultMapState } from "../../../constants/constants";
 import placeMark from "../../../images/map/placemark.svg";
 import styles from "./Map.module.scss";
+import { useMapper } from "../../../hooks/useMapper";
 
 const YaMap = () => {
     const mapRef = useRef(null);
     const polyLineRef = useRef(null);
-    const { points: pointsArray, draggedPoint: draggedName, chosenPoint } = useSelector(geoData);
+    const { points: pointsArray, draggedPoint: draggedName, chosenPoint, ...rest } = useSelector(geoData);
     const dispatch = useDispatch();
+    const mapObj = useMapper();
     const [mapState, setMapState] = useState(defaultMapState);
     const [coordinates, setCoordinates] = useState({ index: "", point: "", order: "" });
 
     useEffect(() => {
-        if (chosenPoint && pointsArray && mapRef.current) {
+        if (chosenPoint && mapRef.current) {
             mapRef.current.setCenter(chosenPoint, window.innerWidth >= 768 ? 16 : 18);
+        } else if (!chosenPoint && mapRef.current) {
+            mapRef.current.setCenter(defaultMapState.center, defaultMapState.zoom);
         } else {
             setMapState({ ...mapState, center: defaultMapState.center, zoom: defaultMapState.zoom });
         }
-    }, [pointsArray, mapRef.current]);
+    }, [mapRef.current, chosenPoint]);
 
     useEffect(() => {
+        const value = mapObj({ coordinates, draggedName }, "pushPoint");
         if (draggedName) {
             const array = [
                 ...pointsArray.filter((item) => item.id !== coordinates.id),
                 {
-                    id: coordinates.id,
-                    order: coordinates.order,
-                    coordinates: coordinates.point,
-                    name: draggedName,
-                    request: "",
+                    ...value,
                 },
             ];
 
@@ -44,6 +45,8 @@ const YaMap = () => {
                 changeStateAction({
                     geoData: {
                         points: array.sort(sortPoints),
+                        ...rest,
+                        chosenPoint,
                     },
                 }),
             );
@@ -59,22 +62,22 @@ const YaMap = () => {
         return geometry;
     }, [pointsArray]);
 
+    // обернул эту функцию в try catch так как из-за callbackRef в карте - она срабатывает дважды
+
     const logHandler = (data, card, index) => {
         try {
             const point = data.reverse().join(",");
+            const value = mapObj({ data, card, index }, "drag");
             dispatch(fetchDraggedPoint({ point }));
             setCoordinates(() => ({
                 ...coordinates,
-                index,
-                point: data.reverse(),
-                order: card.order,
-                id: card.id,
+                ...value,
             }));
         } catch (e) {
             console.log(e);
         }
     };
-    // throttle, ищет по координатам адрес, добавляет его в стейт отдельный, заменяет имя и координаты точки в стейте
+    // debounce после задержки перемещения точки на карте ищет по координатам адрес, добавляет его в стейт отдельный, заменяет имя и координаты точки в стейте
     const debouncedValue = useDebounce(logHandler, 500);
 
     return (
@@ -106,14 +109,17 @@ const YaMap = () => {
                             // preset: "islands#darkGreenCircleIcon",
                             iconLayout: "default#image",
                             iconImageHref: placeMark,
-                            iconImageSize: [18, 18],
-                            iconImageOffset: [-18, -18],
+                            iconImageSize: [25, 25],
+                            iconImageOffset: [-10, -20],
                             draggable: true,
+                            // hasBalloon: true,
+                            // openBalloonOnClick: true,
                         }}
                         onClick={handleClick}
-                        modules={["objectManager.addon.objectsHint"]}
+                        modules={["objectManager.addon.objectsHint", "geoObject.addon.balloon"]}
                         properties={{
                             hintContent: `${item.coordinates}`,
+                            balloonContent: `<p>${item.name}<p/>`,
                         }}
                         instanceRef={(ref) => {
                             if (ref) {

@@ -25,37 +25,56 @@ export const appSlice = createSlice({
         changeStateAction(state, action) {
             return { ...state, ...action.payload };
         },
+        resetError(state) {
+            return {
+                geoData: {
+                    ...state.geoData,
+                    error: null,
+                },
+            };
+        },
     },
     extraReducers: {
         [fetchChosenPoint.pending]: (state) => {
             state.geoData.status = "loading";
         },
         [fetchChosenPoint.fulfilled]: (state, action) => {
-            state.geoData.status = "succeeded";
-            state.geoData.points = [
-                ...state.geoData.points,
-                {
-                    coordinates: action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+            if (action.payload.response.GeoObjectCollection.featureMember.length > 0) {
+                state.geoData.status = "succeeded";
+                state.geoData.error = initialState.geoData.error;
+                state.geoData.points = [
+                    ...state.geoData.points,
+                    {
+                        coordinates: action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+                            .split(" ")
+                            .reverse(),
+                        name: action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.name,
+                        request:
+                            action.payload.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData
+                                .request,
+                        id: uuidv4(),
+                    },
+                ].map((item, index) => ({ ...item, order: index }));
+                state.geoData.chosenPoint =
+                    action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
                         .split(" ")
-                        .reverse(),
-                    name: action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.name,
-                    request:
-                        action.payload.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData.request,
-                    id: uuidv4(),
-                },
-            ].map((item, index) => ({ ...item, order: index }));
-            state.geoData.chosenPoint = action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
-                .split(" ")
-                .reverse();
+                        .reverse();
+            } else {
+                state.geoData.error = "Пожалуйста, введите корректное название";
+                state.geoData.status = "rejected";
+            }
         },
 
         [fetchDraggedPoint.fulfilled]: (state, action) => {
             state.geoData.draggedPoint = action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.name;
+            state.geoData.chosenPoint = action.payload.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos
+                .split(" ")
+                .reverse();
         },
 
         [fetchChosenPoint.rejected]: setError,
     },
 });
 
-export const { changeStateAction } = appSlice.actions;
+export const { changeStateAction, resetError } = appSlice.actions;
 export default appSlice.reducer;

@@ -9,23 +9,30 @@ import { geoData } from "../../../store/selectors/selectors";
 
 const List = () => {
     const dispatch = useDispatch();
-    const { points: pointsArray } = useSelector(geoData);
+    const { points: pointsArray, ...rest } = useSelector(geoData);
     const [currentCard, setCurrentCard] = useState(null);
+    const [active, setActive] = useState("");
 
     const dragStartHandler = (e, item) => {
+        // console.log(item);
         setCurrentCard(item);
     };
 
     const dragEndHandler = (e) => {
-        e.target.style.background = "white";
+        e.currentTarget.style.boxShadow = "none";
+        // e.currentTarget.style.backgroundColor = "white";
+        // setActive("");
     };
 
-    const dragOverHandler = (e) => {
+    const dragOverHandler = (e, item) => {
         e.preventDefault();
-        e.target.style.background = "lightgray";
+        e.currentTarget.style.boxShadow = "0 4px 4px gray";
+        // e.currentTarget.style.backgroundColor = "gray";
     };
 
     const dropHandler = (e, item) => {
+        // console.log(item);
+        e.currentTarget.style.boxShadow = "none";
         e.preventDefault();
         const array = pointsArray
             .map((card) => {
@@ -42,11 +49,10 @@ const List = () => {
             changeStateAction({
                 geoData: {
                     points: array,
+                    ...rest,
                 },
             }),
         );
-
-        e.target.style.background = "white";
     };
 
     return (
@@ -54,6 +60,7 @@ const List = () => {
             {pointsArray &&
                 pointsArray.map((item) => (
                     <Card
+                        active={active}
                         key={item.id}
                         card={item}
                         dragStartHandler={dragStartHandler}
