@@ -1,0 +1,30 @@
+@import "../../../styles/colors";
+@import "../../../styles/fontStyles";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  margin-bottom: 10px;
+}
+.inputErrorMessage {
+  @include smallText;
+  padding: 1px 5px 1px;
+  color: #c4183c;
+  font-size: 11px;
+  line-height: 13px;
+  margin-top: 3px;
+}
+
+.input {
+  @include regularText;
+  box-sizing: border-box;
+  border: 1px solid $GrayForBorders;
+  max-width: 200px;
+  min-width: 200px;
+  outline: none;
+  border-radius: 4px;
+  padding: 2px;
+
+
+}

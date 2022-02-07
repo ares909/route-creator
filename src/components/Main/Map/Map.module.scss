@@ -1,0 +1,25 @@
+
+.map {
+  width: 736px;
+  height: 736px;
+
+  @media screen and (min-width: 1024px) and (max-width: 1439px) {
+    width: 736px;
+    height: 736px;
+
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 500px;
+    height: 500px;
+  }
+  @media screen and (min-width: 426px) and (max-width: 767px) {
+    width: 300px;
+    height: 300px;
+  }
+
+    @media screen and (min-width: 0) and (max-width: 425px) {
+    width: 300px;
+    height: 300px;
+  }
+}
+

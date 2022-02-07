@@ -1,0 +1,19 @@
+@import "../../styles/colors";
+.main {
+  //height: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  //overflow-y: scroll;
+  margin: 0 auto 0;
+  max-width: fit-content;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
+  max-width: fit-content;
+}
