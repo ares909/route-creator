@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/route-creator/static/css/main.00bdbf8f.css",
+    "main.js": "/route-creator/static/js/main.e77ca414.js",
+    "static/media/Roboto-Medium.ttf": "/route-creator/static/media/Roboto-Medium.7429a63c09f79a1760b0.ttf",
+    "static/media/Roboto-Regular.ttf": "/route-creator/static/media/Roboto-Regular.a8d6ac03c7b96b7acb62.ttf",
+    "static/media/Roboto-Bold.ttf": "/route-creator/static/media/Roboto-Bold.75371f53f06181df75f1.ttf",
+    "static/media/Roboto-Light.ttf": "/route-creator/static/media/Roboto-Light.8be2d1487420548b3b8d.ttf",
+    "index.html": "/route-creator/index.html",
+    "static/media/inputCrossButton.svg": "/route-creator/static/media/inputCrossButton.01609553fec431d0b9d66b5b4910376f.svg",
+    "static/media/placemark.svg": "/route-creator/static/media/placemark.c961018a89ef1f0da3c21f3cc6bb3785.svg",
+    "main.00bdbf8f.css.map": "/route-creator/static/css/main.00bdbf8f.css.map",
+    "main.e77ca414.js.map": "/route-creator/static/js/main.e77ca414.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.00bdbf8f.css",
+    "static/js/main.e77ca414.js"
+  ]
+}
